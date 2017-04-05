@@ -10,7 +10,7 @@ import argparse
 import logging
 
 
-parser = argparse.ArgumentParser(description='Stop or start the named node in a named simulation.')
+parser = argparse.ArgumentParser(description='Get the status of the nodes in a named simulation.')
 parser.add_argument('--host', required='True', dest='virl_host', action='store', help='IP address or FQDN the VIRL host.')
 parser.add_argument('-u', '--user', required='True', dest='virl_user', action='store', help='VIRL user name.')
 parser.add_argument('-p', '--password', required='True', dest='virl_pwd', action='store', help='VIRL password.')
