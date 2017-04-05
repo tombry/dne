@@ -15,10 +15,6 @@ parser.add_argument('--host', required='True', dest='virl_host', action='store',
 parser.add_argument('-u', '--user', required='True', dest='virl_user', action='store', help='VIRL user name.')
 parser.add_argument('-p', '--password', required='True', dest='virl_pwd', action='store', help='VIRL password.')
 parser.add_argument('-s', '--simulation', required='True', dest='sim_name', action='store', help='Simulation name.')
-parser.add_argument('-n', '--node', required='True', dest='node_name', action='store', help='Node name.')
-group = parser.add_mutually_exclusive_group()
-group.add_argument('--start', action='store_true', help='Start the node')
-group.add_argument('--stop', action='store_true', help='Stop the node')
 args = parser.parse_args()
 parser.format_help()
 
@@ -40,25 +36,16 @@ requests_log.propagate = True
 def main():
     requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
-    if args.stop:    
-        r = stop_node(args.virl_host, args.virl_user, args.virl_pwd, args.sim_name, args.node_name)
-    elif args.start:
-        r = start_node(args.virl_host, args.virl_user, args.virl_pwd, args.sim_name, args.node_name)
-        
+    r = get_node_status(args.virl_host, args.virl_user, args.virl_pwd, args.sim_name)
+    p = r.json()
+    pprint.pprint(p) 
+
     exit(0)
 
-def stop_node(virl_host, virl_user, virl_pwd, sim_name, node_name):
-    url       = "http://%s:19399/simengine/rest/update/%s/stop" % (virl_host, sim_name)
+def get_node_status(virl_host, virl_user, virl_pwd, sim_name):
+    url       = "http://%s:19399/simengine/rest/nodes/%s" % (virl_host, sim_name)
     headers   = {'content-type': 'text/xml'}
-    payload   = {'nodes': node_name}
-    r = requests.put(url, auth=(virl_user, virl_pwd), params=payload, headers=headers) 
-    return r
-
-def start_node(virl_host, virl_user, virl_pwd, sim_name, node_name):
-    url       = "http://%s:19399/simengine/rest/update/%s/start" % (virl_host, sim_name)
-    headers   = {'content-type': 'text/xml'}
-    payload   = {'nodes': node_name}
-    r = requests.put(url, auth=(virl_user, virl_pwd), params=payload, headers=headers) 
+    r = requests.get(url, auth=(virl_user, virl_pwd), headers=headers) 
     return r
 
 main()
