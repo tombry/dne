@@ -10,7 +10,7 @@ fi
 
 # Define our named-pipe FIFO
 
-FIFO=/tmp/clus2017.fifo
+FIFO=/tmp/cleu2018.fifo
 
 # If the named-pipe does not exist check
 # to see if there is a file of the same name

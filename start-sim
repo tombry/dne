@@ -4,4 +4,4 @@ if [ $# != 3 ]; then
   printf "\nUsage: $0 <host> <user> <password>\n"
   exit
 fi
-curl -v -X POST -u $2:$3 --header "Content-Type:text/xml;charset=UTF-8" --data @API.virl http://$1:19399/simengine/rest/launch?session=APIs
+curl -v -X POST -u $2:$3 --header "Content-Type:text/xml;charset=UTF-8" --data-binary @API.virl http://$1:19399/simengine/rest/launch?session=APIs
